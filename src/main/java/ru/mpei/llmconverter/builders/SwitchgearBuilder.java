@@ -28,12 +28,13 @@ public class SwitchgearBuilder {
     private double refX = 0;
     @Getter @Setter
     private double refY = 0;
+    private double sectionBusBarSchemeAddX = 0;
 
     public List<SwitchgearBuilderOutDto> buildQuadrilateral(Scheme scheme, Map<String, String> parameters) {
         this.refY = -950;
         if (this.refX != 0) this.refX += 300;
         String voltageClass = parameters.get("class").replace("kV", "");
-        Node bus1 = this.elBuilder.buildBus(voltageClass, this.refX - 185, this.refY);
+        Node bus1 = this.elBuilder.buildBus(voltageClass, this.refX - 185, this.refY - 30);
         Node bus2 = this.elBuilder.buildBus(voltageClass, this.refX - 185, this.refY + 590);
         scheme.getNodes().putAll(Map.of(bus1.getId(), bus1, bus2.getId(), bus2));
         double xCoord = -150;
@@ -77,7 +78,7 @@ public class SwitchgearBuilder {
     public List<SwitchgearBuilderOutDto> buildPartitionedBusBarSystem(Scheme scheme, Map<String, String> parameters) {
         this.refY = 700;
         double tempRefX = this.refX;
-        this.refX = 0;
+        this.refX = this.sectionBusBarSchemeAddX;
 
         String voltageClass = parameters.get("class").replace("kV", "");
         int numberOfConnections = Integer.parseInt(parameters.get("connections")) - 2;
@@ -124,10 +125,8 @@ public class SwitchgearBuilder {
             Link link = this.linker.connectToBus(bus2, chain.get(0).getNode(), chain.get(0).getPort(), BusConnectorMode.BUS_TO_EL, i * step, 3.5);
             scheme.getLinks().put(link.getId(), link);
         }
-
-//        if(this.refY == 0) this.refY += 1000;
-//        else this.refX += busWidth + 500;
         this.refX = tempRefX;
+        this.sectionBusBarSchemeAddX += busWidth + 200;
 
         return List.of(
                 new SwitchgearBuilderOutDto(outChains.get(0).get(1).getNode(), outChains.get(0).get(1).getPort()),
@@ -423,6 +422,7 @@ public class SwitchgearBuilder {
     public void reset() {
         this.refX = 0;
         this.refY = 0;
+        this.sectionBusBarSchemeAddX = 0;
     }
 
 }

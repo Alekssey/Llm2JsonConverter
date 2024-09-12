@@ -100,7 +100,6 @@ public class ElementsBuilder {
 
     public Node buildConnectivityNode(String voltageLevel, double x, double y) {
         String id = this.idGenerator.generateId();
-//        String name = nameGenerator.generateName("connectivity_node");
         Node node = new Node(
                 id,
                 null,
@@ -130,11 +129,36 @@ public class ElementsBuilder {
                 new Dimensions(136, 34),
                 new HashMap<>(),
                 new HashMap<>(),
-                List.of(this.buildPort(id, "FIRST", "TOP", x, y), this.buildPort(id, "SECOND", "BOTTOM", x, y)),
+                List.of(this.buildPort(id, "FIRST", "TOP", x + 50, y + 8.5), this.buildPort(id, "SECOND", "BOTTOM", x + 50, y + 144.5)),
                 name
         );
         transformer.getFields().putAll(Map.of("SUBSTATION", "noId", "NAME", name, "FREQUENCY", "50", "RATED_APPARENT_POWER", "16"));
-        transformer.getFields().putAll(Map.of("FIRST_WINDING_RATED_VOLTAGE", highVoltageLevel, "SECOND_WINDING_RATED_VOLTAGE", lowVoltageLevel, "SHORT_CIRCUIT_VOLTAGE", "10.5", "SHORT_CIRCUIT_ACTIVE_POWER", "85", "IDLING_ACTIVE_POWER", "19", "IDLING_CURRENT", "0.7", "FIRST_WINDING_TYPE", "yg", "SECOND_WINDING_TYPE", "d11"));
+        transformer.getFields().putAll(Map.of("FIRST_WINDING_RATED_VOLTAGE", highVoltageLevel, "SECOND_WINDING_RATED_VOLTAGE", lowVoltageLevel, "FIRST_SECOND_WINDING_SHORT_CIRCUIT_VOLTAGE", "10.5", "FIRST_THIRD_WINDING_SHORT_CIRCUIT_VOLTAGE", "17", "SECOND_THIRD_WINDING_SHORT_CIRCUIT_VOLTAGE", "6", "SHORT_CIRCUIT_ACTIVE_POWER", "100", "IDLING_ACTIVE_POWER", "23", "IDLING_CURRENT", "1"));
+        transformer.getFields().putAll(Map.of("FIRST_WINDING_TYPE", "yg", "SECOND_WINDING_TYPE", "yg", "THIRD_WINDING_TYPE", "d11", "SATURATION_EXIST", "no", "MAGNETIZATION_VOLTAGE", "1.17", "AIR_CORE_RESISTANCE", "0.2", "SATURATION_COEFFICIENT", "1.25", "TAP_CHANGER_EXISTENCE", "disabled", "TAP_CHANGER_INSTALLATION_WINDING", "onFirstWinding"));
+        transformer.getFields().putAll(Map.of("TAP_CHANGER_DEFAULT_POSITION", "0", "TAP_CHANGER_VOLTAGE_CHANGE", "1.78", "TAP_CHANGER_MAX_POSITION", "9", "TAP_CHANGER_MIN_POSITION", "-9"));
+        return transformer;
+    }
+
+    public Node buildThreeWindingTransformer(String highVoltageLevel, String midVoltageLevel, String lowVoltageLevel, double x, double y) {
+        String name = this.nameGenerator.generateName("2W transformer");
+        String id = this.idGenerator.generateId();
+
+        highVoltageLevel = highVoltageLevel.replace("kV", "");
+        lowVoltageLevel = lowVoltageLevel.replace("kV", "");
+        Node transformer = new Node(
+                this.idGenerator.generateId(),
+                null,
+                "THREE_WINDING_POWER_TRANSFORMER",
+                0,
+                new Coords(x, y),
+                new Dimensions(136, 106),
+                new HashMap<>(),
+                new HashMap<>(),
+                List.of(this.buildPort(id, "FIRST", "TOP", 12.35, -2.5), this.buildPort(id, "SECOND", "RIGHT", 101, 61), this.buildPort(id, "THIRD", "BOTTOM", 12.35, 133.5)),
+                name
+        );
+        transformer.getFields().putAll(Map.of("SUBSTATION", "noId", "NAME", name, "FREQUENCY", "50", "RATED_APPARENT_POWER", "16"));
+        transformer.getFields().putAll(Map.of("FIRST_WINDING_RATED_VOLTAGE", highVoltageLevel, "SECOND_WINDING_RATED_VOLTAGE", midVoltageLevel, "THIRD_WINDING_RATED_VOLTAGE", lowVoltageLevel, "SHORT_CIRCUIT_VOLTAGE", "10.5", "SHORT_CIRCUIT_ACTIVE_POWER", "85", "IDLING_ACTIVE_POWER", "19", "IDLING_CURRENT", "0.7", "FIRST_WINDING_TYPE", "yg", "SECOND_WINDING_TYPE", "d11"));
         transformer.getFields().putAll(Map.of("SATURATION_EXIST", "no", "MAGNETIZATION_VOLTAGE", "1.17", "AIR_CORE_RESISTANCE", "0.2", "SATURATION_COEFFICIENT", "1.25", "TAP_CHANGER_EXISTENCE", "disabled", "TAP_CHANGER_INSTALLATION_WINDING", "onFirstWinding", "TAP_CHANGER_DEFAULT_POSITION", "0", "TAP_CHANGER_VOLTAGE_CHANGE", "1.78", "TAP_CHANGER_MAX_POSITION", "9", "TAP_CHANGER_MIN_POSITION", "-9"));
         return transformer;
     }

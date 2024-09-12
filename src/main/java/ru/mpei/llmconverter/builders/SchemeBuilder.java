@@ -35,8 +35,7 @@ public class SchemeBuilder {
             if (classes.length == 2) {
                 tr = this.elBuilder.buildTwoWindingTransformer(classes[0], classes[1], x, y);
             } else {
-//                TODO: добавить билдер для трехобмоточного трансформатора и вызываеть здесь его
-                tr = this.elBuilder.buildTwoWindingTransformer(classes[0], classes[1], x, y);
+                tr = this.elBuilder.buildThreeWindingTransformer(classes[0], classes[1], classes[2], x, y);
             }
             transformers.add(tr);
             scheme.getNodes().put(tr.getId(), tr);
@@ -44,12 +43,11 @@ public class SchemeBuilder {
         }
         for (Map<String, String> sideDescription: voltageSides) {
             switch (sideDescription.get("circuit")) {
-                case "quadrilateral":
-                    switchgears.add(this.switchgearBuilder.buildQuadrilateral(scheme, sideDescription));
-                    break;
-                case "partitionedbusbarsystem":
-                    switchgears.add(this.switchgearBuilder.buildPartitionedBusBarSystem(scheme, sideDescription));
-                    break;
+                case "quadrilateral" -> switchgears.add(this.switchgearBuilder.buildQuadrilateral(scheme, sideDescription));
+                case "partitionedbusbarsystem" -> switchgears.add(this.switchgearBuilder.buildPartitionedBusBarSystem(scheme, sideDescription));
+                case "3/2bussystem" -> switchgears.add(this.switchgearBuilder.build3on2(scheme, sideDescription, numberOfTransformers));
+                case "4/3bussystem" -> switchgears.add(this.switchgearBuilder.build4on3(scheme, sideDescription, numberOfTransformers));
+                case "hexagon" -> switchgears.add(this.switchgearBuilder.buildHexagonal(scheme, sideDescription));
             }
         }
 
