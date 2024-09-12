@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.mpei.llmconverter.builders.model.SwitchgearBuilderOutDto;
 import ru.mpei.llmconverter.model.*;
+import ru.mpei.llmconverter.utils.NameGenerator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +21,8 @@ public class SchemeBuilder {
     private LinkBuilder linker;
     @Autowired
     private SwitchgearBuilder switchgearBuilder;
+    @Autowired
+    private NameGenerator nameGenerator;
 
     public Scheme buildScheme(List<Map<String, String>> voltageSides, List<Map<String, String>> equipments) {
         Scheme scheme =  new Scheme();
@@ -68,6 +71,7 @@ public class SchemeBuilder {
         }
 
         this.switchgearBuilder.reset();
+        this.nameGenerator.reset();
         return scheme;
     }
 }

@@ -22,4 +22,8 @@ public class NameGenerator {
         this.generatedNames.add(name);
         return name;
     }
+
+    public void reset() {
+        this.generatedNames.clear();
+    }
 }

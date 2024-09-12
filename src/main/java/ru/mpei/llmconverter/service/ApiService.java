@@ -57,7 +57,7 @@ public class ApiService {
         }
 
         Scheme scheme = this.schemeBuilder.buildScheme(voltageSides, equipments);
-        log.error(JsonUtils.writeAsJson(scheme));
+        log.error(JsonUtils.writeAsJson("scheme generated"));
         JsonUtils.writeJsonToFile("C:\\Users\\Aleksey\\Downloads\\generated_scheme.json", scheme);
         JsonUtils.writeJsonToFile(this.baseJsonOutFilepath + "scheme_" + this.fileNumber + ".json", scheme);
         this.fileNumber ++;
