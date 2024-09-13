@@ -20,5 +20,5 @@ public class Node {
     protected Map<String, String> fields;
     protected Map<String, Map<String, String>> controls;
     protected List<Port> ports;
-    protected String name;
+//    protected String name;
 }

@@ -115,15 +115,21 @@ public class SwitchgearBuilder {
         int connectionsPerBus = numberOfConnections / 2 + numberOfConnections % 2;
         for (int i = 0; i < connectionsPerBus; i++) {
             List<SwitchgearBuilderOutDto> chain = this.buildConnection(scheme, bus1.getCoords().getX() + i * step - 30, bus1.getCoords().getY() + 50, voltageClass, ConnectionCreatorMode.DOWN);
-            Link link = this.linker.connectToBus(bus1, chain.get(0).getNode(), chain.get(0).getPort(), BusConnectorMode.BUS_TO_EL, i * step, 3.5);
-            scheme.getLinks().put(link.getId(), link);
+            Node connectivityNode = this.elBuilder.buildConnectivityNode(voltageClass, chain.get(1).getPort().getCoords().getX(), chain.get(1).getPort().getCoords().getY() + 50);
+            Link linkToBus = this.linker.connectToBus(bus1, chain.get(0).getNode(), chain.get(0).getPort(), BusConnectorMode.BUS_TO_EL, i * step, 3.5);
+            Link linkToCn = this.linker.buildLink(chain.get(1).getNode(), chain.get(1).getPort(), connectivityNode, connectivityNode.getPorts().get(0));
+            scheme.getNodes().put(connectivityNode.getId(), connectivityNode);
+            scheme.getLinks().putAll(Map.of(linkToBus.getId(), linkToBus, linkToCn.getId(), linkToCn));
         }
 
         connectionsPerBus = numberOfConnections - connectionsPerBus;
         for (int i = 0; i < connectionsPerBus; i++) {
             List<SwitchgearBuilderOutDto> chain = this.buildConnection(scheme, bus2.getCoords().getX() + i * step - 30, this.refY + 50, voltageClass, ConnectionCreatorMode.DOWN);
-            Link link = this.linker.connectToBus(bus2, chain.get(0).getNode(), chain.get(0).getPort(), BusConnectorMode.BUS_TO_EL, i * step, 3.5);
-            scheme.getLinks().put(link.getId(), link);
+            Node connectivityNode = this.elBuilder.buildConnectivityNode(voltageClass, chain.get(1).getPort().getCoords().getX(), chain.get(1).getPort().getCoords().getY() + 50);
+            Link linkToBus = this.linker.connectToBus(bus2, chain.get(0).getNode(), chain.get(0).getPort(), BusConnectorMode.BUS_TO_EL, i * step, 3.5);
+            Link linkToCn = this.linker.buildLink(chain.get(1).getNode(), chain.get(1).getPort(), connectivityNode, connectivityNode.getPorts().get(0));
+            scheme.getNodes().put(connectivityNode.getId(), connectivityNode);
+            scheme.getLinks().putAll(Map.of(linkToBus.getId(), linkToBus, linkToCn.getId(), linkToCn));
         }
         this.refX = tempRefX;
         this.sectionBusBarSchemeAddX += busWidth + 200;

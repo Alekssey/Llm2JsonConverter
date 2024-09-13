@@ -21,8 +21,8 @@ public class ConnectionNode extends Node{
 //    }
 
 
-    public ConnectionNode(String id, String voltageLevelId, String libEquipmentId, int hour, Coords coords, Dimensions dimensions, Map<String, String> fields, Map<String, Map<String, String>> controls, List<Port> ports, String name, boolean selected, boolean locked) {
-        super(id, voltageLevelId, libEquipmentId, hour, coords, dimensions, fields, controls, ports, name);
+    public ConnectionNode(String id, String voltageLevelId, String libEquipmentId, int hour, Coords coords, Dimensions dimensions, Map<String, String> fields, Map<String, Map<String, String>> controls, List<Port> ports, boolean selected, boolean locked) {
+        super(id, voltageLevelId, libEquipmentId, hour, coords, dimensions, fields, controls, ports);
         this.selected = selected;
         this.locked = locked;
     }

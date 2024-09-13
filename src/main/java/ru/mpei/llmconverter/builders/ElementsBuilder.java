@@ -40,7 +40,7 @@ public class ElementsBuilder {
                 List.of(
                         this.buildPort(id, "FIRST", "TOP", x + 54.5, y + 8.5),
                         this.buildPort(id, "SECOND", "BOTTOM", x + 54.5, y + 68.5)),
-                name,
+//                name,
                 false,
                 false
         );
@@ -66,7 +66,7 @@ public class ElementsBuilder {
                 Map.of("SUBSTATION", "noId", "NAME", name, "SHOULD_FREQUENCY_BE_MEASURED", "no"),
                 new HashMap<>(),
                 new ArrayList<>(),
-                name,
+//                name,
                 false,
                 false
         );
@@ -91,26 +91,26 @@ public class ElementsBuilder {
                 Map.of("SUBSTATION", "noId", "NAME", name, "POSITION", "on", "RATED_CURRENT", "100"),
                 Map.of("POSITION", Map.of("value", "enabled", "min", "NaN", "max", "NaN")),
                 List.of(this.buildPort(id, "FIRST", "TOP", x + 17.5, y + 11), this.buildPort(id, "SECOND", "BOTTOM", x + 17.5, y + 66)),
-                name,
                 false,
                 false
         );
         return disconnector;
+//                name,
     }
 
     public Node buildConnectivityNode(String voltageLevel, double x, double y) {
         String id = this.idGenerator.generateId();
         Node node = new Node(
                 id,
-                null,
+                "KILOVOLTS_" + voltageLevel,
                 "CONNECTIVITY",
                 0,
                 new Coords(x, y),
                 new Dimensions(0, 0),
                 new HashMap<>(),
                 new HashMap<>(),
-                List.of(this.buildPort(id, "FIRST", "TOP", x, y)),
-                ""
+                List.of(this.buildPort(id, "FIRST", "TOP", x, y))
+//                ""
         );
         return node;
     }
@@ -122,15 +122,15 @@ public class ElementsBuilder {
         lowVoltageLevel = lowVoltageLevel.replace("kV", "");
         Node transformer = new Node(
                 this.idGenerator.generateId(),
-                null,
+                "KILOVOLTS_" + highVoltageLevel,
                 "TWO_WINDING_POWER_TRANSFORMER",
                 0,
                 new Coords(x, y),
                 new Dimensions(136, 34),
                 new HashMap<>(),
                 new HashMap<>(),
-                List.of(this.buildPort(id, "FIRST", "TOP", x + 50, y + 8.5), this.buildPort(id, "SECOND", "BOTTOM", x + 50, y + 144.5)),
-                name
+                List.of(this.buildPort(id, "FIRST", "TOP", x + 50, y + 8.5), this.buildPort(id, "SECOND", "BOTTOM", x + 50, y + 144.5))
+//                name
         );
         transformer.getFields().putAll(Map.of("SUBSTATION", "noId", "NAME", name, "FREQUENCY", "50", "RATED_APPARENT_POWER", "16", "FIRST_WINDING_RATED_VOLTAGE", highVoltageLevel, "SECOND_WINDING_RATED_VOLTAGE", lowVoltageLevel, "SHORT_CIRCUIT_VOLTAGE", "10.5", "SHORT_CIRCUIT_ACTIVE_POWER", "85", "IDLING_ACTIVE_POWER", "19", "IDLING_CURRENT", "0.7"));
         transformer.getFields().putAll(Map.of("FIRST_WINDING_TYPE", "yg", "SECOND_WINDING_TYPE", "d11", "SATURATION_EXIST", "no", "MAGNETIZATION_VOLTAGE", "1.17", "AIR_CORE_RESISTANCE", "0.2", "SATURATION_COEFFICIENT", "1.25", "TAP_CHANGER_EXISTENCE", "disabled", "TAP_CHANGER_INSTALLATION_WINDING", "onFirstWinding"));
@@ -158,8 +158,8 @@ public class ElementsBuilder {
                 new Dimensions(136, 106),
                 new HashMap<>(),
                 new HashMap<>(),
-                List.of(this.buildPort(id, "FIRST", "TOP", 12.35, -2.5), this.buildPort(id, "SECOND", "RIGHT", 101, 61), this.buildPort(id, "THIRD", "BOTTOM", 12.35, 133.5)),
-                name
+                List.of(this.buildPort(id, "FIRST", "TOP", 12.35, -2.5), this.buildPort(id, "SECOND", "RIGHT", 101, 61), this.buildPort(id, "THIRD", "BOTTOM", 12.35, 133.5))
+//                name
         );
         transformer.getFields().putAll(Map.of("SUBSTATION", "noId", "NAME", name, "FREQUENCY", "50", "RATED_APPARENT_POWER", "16", "FIRST_WINDING_RATED_VOLTAGE", highVoltageLevel, "SECOND_WINDING_RATED_VOLTAGE", midVoltageLevel, "THIRD_WINDING_RATED_VOLTAGE", lowVoltageLevel, "FIRST_SECOND_WINDING_SHORT_CIRCUIT_VOLTAGE", "10.5", "FIRST_THIRD_WINDING_SHORT_CIRCUIT_VOLTAGE", "17", "SECOND_THIRD_WINDING_SHORT_CIRCUIT_VOLTAGE", "6"));
         transformer.getFields().putAll(Map.of("SHORT_CIRCUIT_ACTIVE_POWER", "100", "IDLING_ACTIVE_POWER", "23", "IDLING_CURRENT", "1", "FIRST_WINDING_TYPE", "yg", "SECOND_WINDING_TYPE", "yg", "THIRD_WINDING_TYPE", "d11", "SATURATION_EXIST", "no", "MAGNETIZATION_VOLTAGE", "1.17", "AIR_CORE_RESISTANCE", "0.2", "SATURATION_COEFFICIENT", "1.25"));
