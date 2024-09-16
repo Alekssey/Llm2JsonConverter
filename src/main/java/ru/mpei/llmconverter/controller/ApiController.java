@@ -2,6 +2,7 @@ package ru.mpei.llmconverter.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,9 +18,9 @@ public class ApiController {
     private ApiService service;
 
     @PostMapping("/api/convert")
-    public String convertLLMResponse(@RequestBody RequestObject body) {
+    public HttpStatus convertLLMResponse(@RequestBody RequestObject body) {
         log.warn(body.getRequest());
         this.service.extract_data(body.getRequest());
-        return "hi";
+        return HttpStatus.OK;
     }
 }
